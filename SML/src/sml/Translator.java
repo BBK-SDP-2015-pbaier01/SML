@@ -2,6 +2,8 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -9,7 +11,7 @@ import java.util.Scanner;
 /*
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
  */
-public class Translator {
+public class Translator implements sml.Scanner {
 
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
@@ -72,56 +74,83 @@ public class Translator {
 	// line should consist of an MML instruction, with its label already
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
+	//
 	public Instruction getInstruction(String label) {
-		int s1; // Possible operands of the instruction
-		int s2;
-		int r;
-		String nextLabel;
-
 		if (line.equals(""))
 			return null;
-
 		String ins = scan();
-		switch (ins) {
-		case "add":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new AddInstruction(label, r, s1, s2);
-			
-		case "sub":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new SubInstruction(label, r, s1, s2);
-			
-		case "mul":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new MulInstruction(label, r, s1, s2);
-			
-		case "div":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new DivInstruction(label, r, s1, s2);
-		
-		case "lin":
-			r = scanInt();
-			s1 = scanInt();
-			return new LinInstruction(label, r, s1);
-		
-		case "out":
-			s1 = scanInt();
-			return new OutInstruction(label, s1);
-			
-		case "bnz":
-			s1 = scanInt();
-			nextLabel = scan();
-			return new BnzInstruction(label, s1, nextLabel);
 
-		}
+		String searchable = "sml." + ins.substring(0, 1).toUpperCase()
+				+ ins.substring(1) + "Instruction";
+		
+			try {
+				Class<?> instruction = Class.forName(searchable);
+				Constructor<?> cons = instruction.getConstructor(String.class, sml.Scanner.class);
+
+				Instruction result = (Instruction) cons.newInstance(label, this);
+				
+				return result;
+				
+			} catch (ClassNotFoundException | NoSuchMethodException
+					| SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+			
+				e.printStackTrace();
+			}
+
+	
+		
+		
+//		int s1; // Possible operands of the instruction
+//		int s2;
+//		int r;
+//		String nextLabel;
+//
+//		if (line.equals(""))
+//			return null;
+//
+//		String ins = scan();
+//		switch (ins) {
+//		case "add":
+//			r = scanInt();
+//			s1 = scanInt();
+//			s2 = scanInt();
+//			return new AddInstruction(label, r, s1, s2);
+//			
+//		case "sub":
+//			r = scanInt();
+//			s1 = scanInt();
+//			s2 = scanInt();
+//			return new SubInstruction(label, r, s1, s2);
+//			
+//		case "mul":
+//			r = scanInt();
+//			s1 = scanInt();
+//			s2 = scanInt();
+//			return new MulInstruction(label, r, s1, s2);
+//			
+//		case "div":
+//			r = scanInt();
+//			s1 = scanInt();
+//			s2 = scanInt();
+//			return new DivInstruction(label, r, s1, s2);
+//		
+//		case "lin":
+//			r = scanInt();
+//			s1 = scanInt();
+//			return new LinInstruction(label, r, s1);
+//		
+//		case "out":
+//			s1 = scanInt();
+//			return new OutInstruction(label, s1);
+//			
+//		case "bnz":
+//			s1 = scanInt();
+//			nextLabel = scan();
+//			return new BnzInstruction(label, s1, nextLabel);
+//
+//		}
 
 
 		// You will have to write code here for the other instructions.
@@ -133,7 +162,7 @@ public class Translator {
 	 * Return the first word of line and remove it from line. If there is no
 	 * word, return ""
 	 */
-	private String scan() {
+	public String scan() {
 		line = line.trim();
 		if (line.length() == 0)
 			return "";
@@ -149,7 +178,7 @@ public class Translator {
 
 	// Return the first word of line as an integer. If there is
 	// any error, return the maximum int
-	private int scanInt() {
+	public int scanInt() {
 		String word = scan();
 		if (word.length() == 0) {
 			return Integer.MAX_VALUE;
