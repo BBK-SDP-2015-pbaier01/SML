@@ -5,14 +5,11 @@ public class BnzInstruction extends Instruction {
 	private int register;
 	private String nextLabel; 
 
-	public BnzInstruction(String l, String op) {
-		super(l, op);
-	}
 	
-	public BnzInstruction(String label, int register, String nextLabel) {
+	public BnzInstruction(String label, Scanner sc) {
 		super(label, "bnz");
-		this.register = register;
-		this.nextLabel = nextLabel;
+		this.register = sc.scanInt();
+		this.nextLabel = sc.scan();
 	}
 
 	@Override

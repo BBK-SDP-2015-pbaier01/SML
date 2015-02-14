@@ -2,8 +2,9 @@ package sml;
 
 public class DivInstruction extends Instruction {
 
-	public DivInstruction(String label, int result, int op1, int op2) {
-		super(label, "div", result, op1, op2);
+	public DivInstruction(String label, Scanner sc) {
+		super(label, "div", sc);
+		
 	}
 
 	@Override

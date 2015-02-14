@@ -10,14 +10,10 @@ public class LinInstruction extends Instruction {
 	private int register;
 	private int value;
 
-	public LinInstruction(String label, String opcode) {
-		super(label, opcode);
-	}
-
-	public LinInstruction(String label, int register, int value) {
+	public LinInstruction(String label, Scanner sc) {
 		super(label, "lin");
-		this.register = register;
-		this.value = value;
+		this.register = sc.scanInt();
+		this.value = sc.scanInt();
 
 	}
 

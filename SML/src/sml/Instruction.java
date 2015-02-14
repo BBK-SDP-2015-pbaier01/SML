@@ -22,14 +22,21 @@ public abstract class Instruction {
 	}
 	
 	// Constructor for subclasses using same parameters
-	
-	public Instruction(String label, String opcode, int result, int op1, int op2) {
+	public Instruction(String label, String opcode, Scanner sc){
 		this.label = label;
 		this.opcode = opcode;
-		this.result = result;
-		this.op1 = op1;
-		this.op2 = op2;
+		this.result = sc.scanInt();
+		this.op1 = sc.scanInt();
+		this.op2 = sc.scanInt();
 	}
+	
+//	public Instruction(String label, String opcode, int result, int op1, int op2) {
+//		this.label = label;
+//		this.opcode = opcode;
+//		this.result = result;
+//		this.op1 = op1;
+//		this.op2 = op2;
+//	}
 
 	// = the representation "label: opcode" of this Instruction
 

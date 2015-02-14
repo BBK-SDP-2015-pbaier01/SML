@@ -4,14 +4,10 @@ public class OutInstruction extends Instruction {
 
 	private int register;
 
-	public OutInstruction(String l, String op) {
-		super(l, op);
-		// TODO Auto-generated constructor stub
-	}
 	
-	public OutInstruction(String label, int register) {
+	public OutInstruction(String label, Scanner sc) {
 		super(label,"out");
-		this.register = register;
+		this.register = sc.scanInt();
 		
 	}
 

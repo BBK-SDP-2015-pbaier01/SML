@@ -8,8 +8,8 @@ package sml;
 
 public class AddInstruction extends Instruction {
 
-	public AddInstruction(String label, int result, int op1, int op2) {
-		super(label, "add", result, op1, op2);
+	public AddInstruction(String label, Scanner sc) {
+		super(label, "add", sc);
 	
 	}
 

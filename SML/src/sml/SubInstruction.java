@@ -2,8 +2,9 @@ package sml;
 
 public class SubInstruction extends Instruction {
 
-	public SubInstruction(String label, int result, int op1, int op2) {
-		super(label, "sub", result, op1, op2);
+	public SubInstruction(String label, Scanner sc) {
+		super(label, "sub", sc);
+		
 	}
 
 	@Override
