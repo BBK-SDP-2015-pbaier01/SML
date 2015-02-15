@@ -3,6 +3,7 @@ package sml;
 public class OutInstruction extends Instruction {
 
 	private int register;
+	private int contentOfRegister;
 
 	
 	public OutInstruction(String label, Scanner sc) {
@@ -11,10 +12,16 @@ public class OutInstruction extends Instruction {
 		
 	}
 
+	public int getContentOfRegister() {
+		return contentOfRegister;
+	}
+
+
 	@Override
 	public void execute(Machine m) {
-//		System.out.println(m.getRegisters().getRegister(register));
-		toString();
+		contentOfRegister = m.getRegisters().getRegister(register);
+		System.out.println("register " + register + " = " + m.getRegisters().getRegister(register));
+		
 	}
 	
 	@Override

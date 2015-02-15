@@ -12,6 +12,10 @@ public class BnzInstruction extends Instruction {
 		this.nextLabel = sc.scan();
 	}
 
+	public String getNextLabel() {
+		return nextLabel;
+	}
+
 	@Override
 	public void execute(Machine m) {
 		if (m.getRegisters().getRegister(register) != 0) {
